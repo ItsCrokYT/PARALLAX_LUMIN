@@ -1,0 +1,549 @@
+/* ------------------- CSS PERSONALIZADO ------------------- */
+        
+:root {
+    --color-bg: #050505;
+    --color-primary: #cdff00; /* Verde Ácido */
+    --color-accent: #7000ff; /* Violeta Digital */
+    --color-text: #ffffff;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, .nav-link {
+    font-family: var(--font-display);
+}
+
+/* --- ESTILOS DE NAVEGACIÓN --- */
+#nav-overlay.open {
+    transform: translateY(0);
+}
+
+/* --- CURSOR PERSONALIZADO (LÓGICA CSS ROBUSTA) --- */
+
+/* 1. Por defecto (Móviles/Tablets): Cursor nativo y ocultar el div personalizado */
+.custom-cursor {
+    display: none !important;
+}
+body {
+    cursor: auto !important;
+}
+
+/* 2. Solo para dispositivos con puntero fino (Mouse/Trackpad) */
+@media (hover: hover) and (pointer: fine) {
+    /* Ocultamos cursor nativo solo aquí */
+    body.no-cursor {
+        cursor: none !important;
+    }
+    a, button, input, textarea, .hover-target {
+        cursor: none !important;
+    }
+
+    /* Mostramos y estilizamos cursor personalizado solo aquí */
+    .custom-cursor {
+        display: block !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--color-text); 
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s, box-shadow 0.3s;
+        mix-blend-mode: difference; /* Invertir colores en estado normal */
+    }
+
+    /* Estado Activo (Hover) - EFECTO CRISTAL + BORDE NEON */
+    .custom-cursor.active {
+        width: 60px;
+        height: 60px;
+        
+        /* Fondo transparente para efecto lupa */
+        background-color: rgba(255, 255, 255, 0.01);
+        
+        /* Borde NEON brillante */
+        border: 2px solid var(--color-primary);
+        
+        /* Sombra interna para volumen + Resplandor exterior Neón */
+        box-shadow: 
+            inset 0 0 20px rgba(255, 255, 255, 0.1), /* Volumen interno sutil */
+            0 0 15px var(--color-primary), /* Glow externo neón */
+            inset 0 0 5px var(--color-primary); /* Glow interno sutil */
+        
+        opacity: 1;
+        mix-blend-mode: normal;
+    }
+}
+
+
+/* --- BARRA LATERAL (PUNTOS Y ANIMACIÓN) --- */
+.side-nav {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 80;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    transition: all 0.3s ease;
+    /* Cursor pointer normal en móvil, custom en desktop por la media query de arriba */
+    cursor: pointer; 
+    position: relative;
+    opacity: 0;
+    transform: translateX(30px);
+    animation: slideInDots 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideInDots {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Retrasos escalonados para la animación de entrada */
+.nav-dot:nth-child(1) { animation-delay: 0.2s; }
+.nav-dot:nth-child(2) { animation-delay: 0.3s; }
+.nav-dot:nth-child(3) { animation-delay: 0.4s; }
+.nav-dot:nth-child(4) { animation-delay: 0.5s; }
+.nav-dot:nth-child(5) { animation-delay: 0.6s; }
+.nav-dot:nth-child(6) { animation-delay: 0.7s; } /* Nuevo punto para Galería */
+
+
+.nav-dot:hover {
+    border-color: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.nav-dot.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary);
+    transform: scale(1.3);
+}
+
+/* --- BOTÓN VOLVER ARRIBA (NEON) --- */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(205, 255, 0, 0.3);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.scroll-top-btn:hover {
+    background-color: var(--color-primary);
+    color: #000;
+    box-shadow: 0 0 20px var(--color-primary), 0 0 40px var(--color-primary);
+    transform: translateY(-5px);
+}
+
+
+/* --- HERO SCROLLYTELLING (EXTENDIDO) --- */
+
+/* Altura aumentada a 800vh para scroll más largo */
+.hero-scroll-container {
+    height: 800vh;
+    position: relative;
+    z-index: 20;
+}
+
+.sticky-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 80%);
+}
+
+/* Fondo Dinámico y Figuras */
+.hero-bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+/* Blobs (Manchas) */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    will-change: transform; 
+}
+.blob-1 {
+    top: 20%; left: 10%; width: 40vw; height: 40vw;
+    background: var(--color-accent);
+}
+.blob-2 {
+    bottom: 20%; right: 10%; width: 30vw; height: 30vw;
+    background: var(--color-primary);
+    opacity: 0.3;
+}
+
+/* FIGURAS GEOMÉTRICAS */
+.shape {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+}
+.shape-triangle {
+    top: 15%;
+    right: 20%;
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 200px solid rgba(255, 255, 255, 0.05);
+    z-index: 2;
+}
+.shape-ring {
+    bottom: 10%;
+    left: 15%;
+    width: 300px;
+    height: 300px;
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: 2;
+}
+.shape-diamond {
+    top: 40%;
+    left: 45%;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    z-index: 2;
+}
+.shape-cross {
+    bottom: 25%;
+    right: 25%;
+    width: 50px;
+    height: 50px;
+    background: var(--color-accent);
+    clip-path: polygon(30% 0%, 70% 0%, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%, 0% 30%, 30% 30%);
+    opacity: 0.4;
+    z-index: 2;
+}
+
+/* Escenas */
+.hero-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 10vw, 9rem);
+    font-weight: 800;
+    text-align: center;
+    line-height: 0.9;
+    text-transform: uppercase;
+}
+.hero-title span {
+    display: block;
+    -webkit-text-stroke: 2px var(--color-text);
+    color: transparent;
+}
+.hero-title span.filled {
+    color: var(--color-primary);
+    -webkit-text-stroke: 0;
+}
+
+/* BOTÓN SCROLL */
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: white;
+    z-index: 50;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    color: var(--color-primary);
+    transform: translateY(5px);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+    max-width: 800px;
+}
+
+/* --- CLASES COMUNES --- */
+.section-padding { padding: 5rem 1rem; }
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #000;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: 0.3s;
+    display: inline-block;
+    border: 2px solid var(--color-primary);
+}
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.service-card {
+    background: rgba(255,255,255,0.03);
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.service-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--color-primary);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+}
+.service-card i {
+    transition: transform 0.4s ease, color 0.3s ease;
+}
+.service-card:hover i {
+    transform: scale(1.1);
+    color: #fff; 
+    text-shadow: 0 0 10px var(--color-primary);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s ease;
+}
+.gallery-item:hover img {
+    transform: scale(1.15);
+}
+.gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-overlay h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+.gallery-item:hover .gallery-overlay h3 {
+    transform: translateY(0);
+}
+
+.form-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1px solid #555;
+    padding: 1rem 0; color: white; outline: none;
+}
+.form-input:focus { border-color: var(--color-primary); }
+
+.fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: 0.6s ease-out;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* --- EFECTO ZOOM CONTINUO + GRAYSCALE + BORDE NEON --- */
+@keyframes slow-zoom-out {
+    0% { transform: scale(1.15); }
+    100% { transform: scale(1.0); }
+}
+
+.animate-zoom-gray {
+    animation: slow-zoom-out 10s ease-in-out infinite alternate;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+.animate-zoom-gray:hover {
+    filter: grayscale(0%);
+}
+
+.intro-img-wrapper {
+    border: 2px solid rgba(255,255,255,0.05); 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; 
+}
+
+.intro-img-wrapper:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 25px rgba(205, 255, 0, 0.2); 
+}
+
+/* --- SWIPER JS CUSTOM STYLES (GALERÍA) --- */
+
+.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Efecto de borde sutil */
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: border-color 0.3s;
+}
+
+/* Al pasar el mouse sobre un slide activo */
+.swiper-slide:hover {
+    border-color: var(--color-primary);
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Caption flotante dentro del slide */
+.slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: white;
+    font-weight: 700;
+    font-family: var(--font-display);
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover .slide-caption {
+    transform: translateY(0);
+}
+
+/* Personalización de los botones de navegación */
+.swiper-button-next, .swiper-button-prev {
+    color: var(--color-primary) !important;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Personalización de la paginación (puntitos) */
+.swiper-pagination-bullet {
+    background: #fff !important;
+    opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--color-primary) !important;
+    opacity: 1;
+}
+
+/* --- AJUSTES RESPONSIVE PARA MÓVILES (TODAS LAS IMÁGENES IGUALES) --- */
+@media (max-width: 768px) {
+    /* Intro Image: Ajustar altura para que no sea tan alta en móviles */
+    .intro-img-wrapper {
+        height: 300px !important;
+    }
+
+    /* Swiper Slide: Ajustar tamaño para móviles (Cuadrados 1:1) */
+    .swiper-slide {
+        width: 280px !important; /* Ancho cómodo en móviles */
+        height: 280px !important; /* Cuadrado para igualar galería */
+        max-width: 80vw; /* Límite de seguridad */
+    }
+
+    /* Gallery Grid: Asegurar consistencia */
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+        gap: 1rem;
+    }
+}
