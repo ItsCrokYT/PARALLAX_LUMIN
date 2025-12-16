@@ -438,7 +438,17 @@ body {
     transition: border-color 0.3s;
 }
 .swiper-slide:hover { border-color: var(--color-primary); }
-.swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.swiper-slide img { 
+    display: block; 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+    /* Efecto Zoom de Alejamiento */
+    animation: slow-zoom-out 12s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
 .slide-caption {
     position: absolute; bottom: 0; left: 0; width: 100%; padding: 1rem;
     background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
