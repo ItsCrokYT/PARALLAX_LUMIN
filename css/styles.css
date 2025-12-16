@@ -444,16 +444,31 @@ body {
 @media (max-width: 768px) {
     /* Header Fix: Padding y visibilidad */
     nav {
-        padding: 0.8rem 1rem !important; /* Menos padding */
-        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); /* Fondo para legibilidad */
+        /* Usamos 'max' para asegurar al menos 1rem, o más si el teléfono tiene notch */
+        padding-top: max(1rem, env(safe-area-inset-top)) !important;
+        padding-bottom: 1rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        
+        /* Fondo más oscuro arriba para asegurar legibilidad sobre el notch */
+        background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+        
         mix-blend-mode: normal !important; /* Desactivar difference en móvil */
-        z-index: 100;
+        z-index: 1000; /* Asegurar que esté por encima de todo */
+        height: auto; /* Permitir que crezca si es necesario */
+    }
+    
+    /* Ajuste adicional para el botón menú */
+    nav button {
+        margin-top: 0.2rem; /* Pequeño ajuste visual */
     }
     
     /* Hero Title Fix: Tamaño controlado */
     .hero-title {
         font-size: clamp(2rem, 12vw, 4rem) !important; 
         padding: 0 1rem;
+        /* Asegurar que el título no quede tapado por el header más alto */
+        margin-top: 4rem; 
     }
 
     /* Intro Image Height */
