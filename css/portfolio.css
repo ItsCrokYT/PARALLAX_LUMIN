@@ -1,0 +1,259 @@
+/* -----------------------------------------------------------
+   PORTAFOLIO.CSS - ESTILOS CLÁSICOS & ELEGANTES
+   -----------------------------------------------------------
+   Instrucciones:
+   1. Agrega este archivo en tu <head> después de styles.css
+   2. Usa la estructura HTML indicada para cada estilo.
+   ----------------------------------------------------------- */
+
+/* --- 1. CLEAN GRID (La Cuadrícula Perfecta) ---
+   Clase contenedora: .gallery-clean
+   Estructura: Grid simétrico con efecto de enfoque limpio.
+*/
+.gallery-clean {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.gallery-clean .item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.4s ease;
+}
+
+.gallery-clean .item img {
+    width: 100%;
+    height: 300px; /* Altura fija para consistencia */
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Interacción */
+.gallery-clean .item:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.gallery-clean .item:hover img {
+    transform: scale(1.1);
+}
+
+
+/* --- 2. MASONRY (Tipo Pinterest) ---
+   Clase contenedora: .gallery-masonry
+   Estructura: Columnas fluidas donde las imágenes encajan como ladrillos.
+   Nota: Ideal para imágenes de diferentes alturas.
+*/
+.gallery-masonry {
+    column-count: 3;
+    column-gap: 1.5rem;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .gallery-masonry { column-count: 2; }
+}
+@media (max-width: 480px) {
+    .gallery-masonry { column-count: 1; }
+}
+
+.gallery-masonry .item {
+    display: inline-block; /* Crucial para Masonry */
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    break-inside: avoid; /* Evita que se corten las imágenes */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-masonry .item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0.9);
+    transition: filter 0.3s;
+}
+
+/* Interacción */
+.gallery-masonry .item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5);
+    z-index: 2;
+}
+
+.gallery-masonry .item:hover img {
+    filter: brightness(1.1);
+}
+
+
+/* --- 3. POLAROID STYLE (Retro Moderno) ---
+   Clase contenedora: .gallery-polaroid
+   Estructura: Marcos gruesos con rotaciones aleatorias.
+   Nota: Usamos var(--color-text) para el marco para crear contraste con el fondo.
+*/
+.gallery-polaroid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 1rem;
+}
+
+.gallery-polaroid .item {
+    background-color: var(--color-text); /* Marco color texto (blanco usualmente) */
+    padding: 1rem 1rem 3rem 1rem; /* Padding extra abajo para el estilo polaroid */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 280px;
+    position: relative;
+}
+
+.gallery-polaroid .item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.1);
+    filter: sepia(20%); /* Toque vintage */
+}
+
+/* Rotaciones aleatorias simuladas con nth-child */
+.gallery-polaroid .item:nth-child(odd) { transform: rotate(-3deg); }
+.gallery-polaroid .item:nth-child(even) { transform: rotate(2deg); }
+.gallery-polaroid .item:nth-child(3n) { transform: rotate(-1deg) translateY(10px); }
+
+/* Interacción */
+.gallery-polaroid .item:hover {
+    transform: rotate(0deg) scale(1.1); /* Se endereza y crece */
+    z-index: 10;
+    box-shadow: 0 0 20px var(--color-primary); /* Glow del tema */
+    background-color: var(--color-primary); /* El marco se vuelve del color primario */
+}
+/* El texto dentro de la polaroid (si hubiera) cambiaría de color para leerse */
+.gallery-polaroid .item:hover p {
+    color: var(--color-bg);
+}
+
+
+/* --- 4. FILM STRIP (Tira de Película) ---
+   Clase contenedora: .gallery-filmstrip
+   Estructura: Scroll horizontal con perforaciones decorativas.
+*/
+.gallery-filmstrip-wrapper {
+    overflow-x: auto;
+    padding: 2rem 0;
+    /* Barra de scroll personalizada */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-bg);
+}
+
+.gallery-filmstrip {
+    display: flex;
+    gap: 2px; /* Las fotos pegadas como en un rollo */
+    width: max-content;
+    padding: 1rem;
+    background-color: rgba(255,255,255,0.05);
+    border-top: 2px dashed var(--color-text); /* Perforaciones simuladas */
+    border-bottom: 2px dashed var(--color-text);
+}
+
+.gallery-filmstrip .item {
+    width: 320px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    filter: grayscale(100%);
+    transition: all 0.4s ease;
+    border-right: 2px solid var(--color-bg); /* Separador de fotograma */
+}
+
+.gallery-filmstrip .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Interacción */
+.gallery-filmstrip .item:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+    z-index: 5;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    border-color: var(--color-primary); /* Borde se ilumina */
+}
+
+
+/* --- 5. OVERLAY INFO (Información Flotante) ---
+   Clase contenedora: .gallery-overlay-info
+   Estructura: Grid donde el texto aparece sobre la imagen al hacer hover.
+*/
+.gallery-overlay-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-overlay-info .item {
+    position: relative;
+    height: 350px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-overlay-info .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* La capa de información oculta */
+.gallery-overlay-info .info {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7); /* Fondo oscuro base */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    padding: 2rem;
+    
+    /* Borde interno del color del tema */
+    box-shadow: inset 0 0 0 2px var(--color-primary); 
+    margin: 1rem; /* Margen para que el borde no toque los filos */
+}
+
+.gallery-overlay-info .info h3 {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+}
+
+.gallery-overlay-info .info p {
+    color: var(--color-text);
+    font-size: 0.9rem;
+}
+
+/* Interacción */
+.gallery-overlay-info .item:hover img {
+    transform: scale(1.1);
+    filter: blur(2px); /* Desenfocar fondo para leer mejor */
+}
+
+.gallery-overlay-info .item:hover .info {
+    opacity: 1;
+    transform: translateY(0);
+}

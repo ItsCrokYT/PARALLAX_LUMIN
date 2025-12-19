@@ -1,0 +1,88 @@
+/* -----------------------------------------------------------
+   ARCHIVOS DE TEMAS (PALETAS DE COLORES)
+   -----------------------------------------------------------
+   Instrucciones: Agrega la clase correspondiente a la etiqueta <body>
+   en tu archivo index.html para cambiar el esquema de colores.
+   
+   Ejemplo: <body class="theme-sapphire">
+   ----------------------------------------------------------- */
+
+/* 1. TEMA ORIGINAL (Neon Acid) - Por defecto si no pones clase */
+.theme-original {
+    --color-bg: #050505;
+    --color-primary: #cdff00;
+    --color-accent: #7000ff;
+    --color-text: #ffffff;
+}
+
+/* 2. TEMA SAPPHIRE (Cyber Blue) - Elegante y tecnológico */
+.theme-sapphire {
+    --color-bg: #020c1b;       /* Azul marino muy profundo */
+    --color-primary: #64ffda;  /* Cian eléctrico */
+    --color-accent: #0077b6;   /* Azul medio */
+    --color-text: #e6f1ff;     /* Blanco azulado */
+}
+
+/* 3. TEMA CRIMSON (Aggressive) - Intenso y enérgico */
+.theme-crimson {
+    --color-bg: #0f0000;       /* Negro rojizo */
+    --color-primary: #ff003c;  /* Rojo neón intenso */
+    --color-accent: #ff4d4d;   /* Rojo coral suave */
+    --color-text: #ffffff;
+}
+
+/* 4. TEMA SOLAR (Industrial) - Alto contraste y calidez */
+.theme-solar {
+    --color-bg: #121212;       /* Negro neutro */
+    --color-primary: #ff9f1c;  /* Naranja fuego */
+    --color-accent: #e71d36;   /* Rojo */
+    --color-text: #ffffff;
+}
+
+/* 5. TEMA AMETHYST (Mystic) - Misterioso y vibrante */
+.theme-amethyst {
+    --color-bg: #120024;       /* Violeta casi negro */
+    --color-primary: #d400ff;  /* Magenta neón */
+    --color-accent: #7209b7;   /* Violeta real */
+    --color-text: #f3e5f5;
+}
+
+/* 6. TEMA ROYAL (Light/Gold) - Lujo y claridad (Modo Claro) */
+.theme-royal {
+    --color-bg: #f8f9fa;       /* Blanco humo */
+    --color-primary: #d4af37;  /* Oro metálico */
+    --color-accent: #2c3e50;   /* Azul acero oscuro (para contrastes) */
+    --color-text: #1a1a1a;     /* Gris muy oscuro (para lectura) */
+}
+
+/* 7. TEMA MINT (Fresh) - Moderno y limpio */
+.theme-mint {
+    --color-bg: #1c2526;       /* Gris pizarra verdoso */
+    --color-primary: #00f5d4;  /* Menta brillante */
+    --color-accent: #9b5de5;   /* Violeta (complementario) */
+    --color-text: #f0fdf4;
+}
+
+/* 8. TEMA COTTON CANDY (Dreamy) - Suave y onírico */
+.theme-cotton {
+    --color-bg: #190019;       /* Mora oscuro */
+    --color-primary: #ff85c0;  /* Rosa pastel neón */
+    --color-accent: #5cdbd3;   /* Turquesa suave */
+    --color-text: #fff0f6;
+}
+
+/* 9. TEMA TERMINAL (Hacker) - Retro y minimalista */
+.theme-terminal {
+    --color-bg: #000000;       /* Negro puro */
+    --color-primary: #39ff14;  /* Verde fósforo clásico */
+    --color-accent: #008f11;   /* Verde oscuro */
+    --color-text: #ccffcc;     /* Verde muy pálido */
+}
+
+/* 10. TEMA SLATE (Corporate Dark) - Serio y profesional */
+.theme-slate {
+    --color-bg: #222831;       /* Gris carbón azulado */
+    --color-primary: #00adb5;  /* Teal brillante */
+    --color-accent: #393e46;   /* Gris medio */
+    --color-text: #eeeeee;
+}
