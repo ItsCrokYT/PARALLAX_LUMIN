@@ -43,7 +43,7 @@
     
     ==========================================================================
 -->
-<body class="overflow-x-hidden no-cursor theme-solar">
+<body class="overflow-x-hidden no-cursor theme-sapphire">
 
     <div class="custom-cursor" id="cursor"></div>
 
@@ -145,109 +145,121 @@
             </div>
         </section>
 
-        <section id="servicios" class="section-padding bg-[#0f0f0f]">
-            <div class="container mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-12 px-4">SERVICIOS</h2>
-                <div class="grid md:grid-cols-1 md:grid-cols-3 gap-8 px-4">
-                    <div class="service-card fade-in hover-target">
-                        <i class="ph ph-bezier-curve text-5xl text-[var(--color-primary)] mb-6 inline-block"></i>
-                        <h3 class="text-2xl font-bold mb-3">Branding</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Construimos identidades memorables desde el logotipo hasta el lenguaje visual.</p>
+        <!-- SECCIÓN 5: TESTIMONIOS (CAROUSEL INFINITO) -->
+        <section id="testimonios" class="section-padding bg-[#0a0a0a] overflow-hidden border-t border-white/5">
+            <div class="container mx-auto px-4 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-2">LO QUE DICEN</h2>
+                <p class="text-center text-gray-500 text-sm tracking-widest uppercase">CLIENTES SATISFECHOS</p>
+            </div>
+
+            <!-- Contenedor Marquee -->
+            <div class="testimonial-marquee">
+                <!-- Pista que se mueve (Track) -->
+                <div class="marquee-track">
+                    
+                    <!-- GRUPO 1 DE TARJETAS -->
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Ana García</h4>
+                                <span>CEO, TechFlow</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Lumina transformó completamente nuestra identidad. El diseño UI/UX aumentó nuestra conversión un 40%."</p>
                     </div>
-                    <div class="service-card fade-in hover-target">
-                        <i class="ph ph-monitor-play text-5xl text-[var(--color-primary)] mb-6 inline-block"></i>
-                        <h3 class="text-2xl font-bold mb-3">UI/UX</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Diseñamos interfaces intuitivas y experiencias de usuario fluidas.</p>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Carlos Mendez</h4>
+                                <span>Director, ArquiStudio</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"La creatividad de este equipo no tiene límites. Capturaron la esencia minimalista que buscábamos a la perfección."</p>
                     </div>
-                    <div class="service-card fade-in hover-target">
-                        <i class="ph ph-printer text-5xl text-[var(--color-primary)] mb-6 inline-block"></i>
-                        <h3 class="text-2xl font-bold mb-3">Editorial</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Maquetación de alto impacto para revistas, libros y material corporativo.</p>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Sarah Jenkins</h4>
+                                <span>Founder, Bloom</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Profesionales, rápidos y con una visión estética increíble. El rebranding fue un éxito total."</p>
                     </div>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>David Ross</h4>
+                                <span>Marketing, NeonX</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Necesitábamos algo disruptivo y agresivo. Lumina entregó exactamente eso. El estilo Cyberpunk es brutal."</p>
+                    </div>
+
+                    <!-- GRUPO 2 (DUPLICADO PARA EL BUCLE INFINITO) -->
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Ana García</h4>
+                                <span>CEO, TechFlow</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Lumina transformó completamente nuestra identidad. El diseño UI/UX aumentó nuestra conversión un 40%."</p>
+                    </div>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Carlos Mendez</h4>
+                                <span>Director, ArquiStudio</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"La creatividad de este equipo no tiene límites. Capturaron la esencia minimalista que buscábamos a la perfección."</p>
+                    </div>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>Sarah Jenkins</h4>
+                                <span>Founder, Bloom</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Profesionales, rápidos y con una visión estética increíble. El rebranding fue un éxito total."</p>
+                    </div>
+
+                    <div class="testimonial-card hover-target">
+                        <div class="testi-header">
+                            <div class="testi-avatar"><i class="ph ph-user"></i></div>
+                            <div>
+                                <h4>David Ross</h4>
+                                <span>Marketing, NeonX</span>
+                            </div>
+                            <div class="testi-icon"><i class="ph ph-quotes"></i></div>
+                        </div>
+                        <p>"Necesitábamos algo disruptivo y agresivo. Lumina entregó exactamente eso. El estilo Cyberpunk es brutal."</p>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="portafolio" class="section-padding container mx-auto px-4">
-            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-center">OBRAS SELECCIONADAS</h2>
-            <div class="gallery-clean">
-                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="P1"></div>
-                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=600&auto=format&fit=crop" alt="P2"></div>
-                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="P3"></div>
-                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop" alt="P4"></div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 4: GALERÍA VISUAL (ESTRUCTURA UNIFICADA) -->
-        <section id="galeria" class="section-padding bg-[#0a0a0a] min-h-[800px] overflow-hidden">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-[var(--color-primary)]">GALERÍA VISUAL</h2>
-                
-                <!-- CONTENEDOR MAESTRO: Aquí ocurre la magia -->
-                <!-- La clase 'swiper' es necesaria para el modo Slider, las otras clases se añadirán via JS -->
-                <div id="visual-gallery" class="swiper gallery-visual-container">
-                    
-                    <!-- Wrapper (Requerido por Swiper, usado como Grid en otros modos) -->
-                    <div class="swiper-wrapper gallery-wrapper">
-                        
-                        <!-- IMAGEN 1 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto1.jpg" alt="Abstract 3D">
-                            <div class="card-caption">ABSTRACT 3D</div>
-                        </div>
-                        
-                        <!-- IMAGEN 2 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto2.jpg" alt="Color Pop">
-                            <div class="card-caption">COLOR POP</div>
-                        </div>
-                        
-                        <!-- IMAGEN 3 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto3.jpg" alt="Minimal Tech">
-                            <div class="card-caption">MINIMAL TECH</div>
-                        </div>
-                        
-                        <!-- IMAGEN 4 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto4.jpg" alt="Glitch Art">
-                            <div class="card-caption">GLITCH ART</div>
-                        </div>
-
-                        <!-- IMAGEN 5 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto5.jpg" alt="Cyberpunk">
-                            <div class="card-caption">CYBERPUNK</div>
-                        </div>
-                        
-                        <!-- IMAGEN 6 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto6.jpg" alt="Vaporwave">
-                            <div class="card-caption">VAPORWAVE</div>
-                        </div>
-                        
-                        <!-- IMAGEN 7 -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto7.jpg" alt="Fluidity">
-                            <div class="card-caption">FLUIDITY</div>
-                        </div>
-                        
-                        <!-- IMAGEN 8 (Reutilizada imagen 1 para completar 8) -->
-                        <div class="swiper-slide gallery-card hover-target">
-                            <img src="assets/galeria2/foto8.jpg" alt="Gradients">
-                            <div class="card-caption">GRADIENTS</div>
-                        </div>
-
-                    </div>
-                    
-                    <!-- Controles Swiper (Se ocultan automáticamente en otros modos) -->
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next hover-target"></div>
-                    <div class="swiper-button-prev hover-target"></div>
-                </div>
-            </div>
-        </section>
-
+        <!-- CONTACTO -->
         <section id="contacto" class="section-padding bg-[#0f0f0f]">
             <div class="container mx-auto px-4 text-center max-w-2xl">
                 <h2 class="text-4xl font-bold mb-8">CONTACTO</h2>
