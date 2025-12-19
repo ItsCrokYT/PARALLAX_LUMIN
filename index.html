@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Swiper CSS (NUEVO) -->
+    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <!-- Fuentes Google -->
@@ -17,15 +17,36 @@
     <!-- Iconos Phosphor -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- ESTILOS -->
+    <link rel="stylesheet" href="css/styles.css">          
+    <link rel="stylesheet" href="css/themes.css">          
+    <link rel="stylesheet" href="css/portfolio.css">       
+    <link rel="stylesheet" href="css/gallery-advanced.css">
 </head>
-<body class="overflow-x-hidden no-cursor">
 
-    <!-- CURSOR PERSONALIZADO -->
+<!-- 
+    ==========================================================================
+    LISTA DE TEMAS DISPONIBLES (PALETAS DE COLORES)
+    Instrucciones: Copia una de las siguientes clases y agrégala a la etiqueta <body>
+    ==========================================================================
+
+    1. theme-original   : Neon Acid (Verde Ácido / Negro Profundo)
+    2. theme-sapphire   : Cyber Blue (Azul Marino / Cian Eléctrico)
+    3. theme-crimson    : Aggressive (Rojo Intenso / Negro Rojizo)
+    4. theme-solar      : Industrial (Naranja Fuego / Gris Oscuro)
+    5. theme-amethyst   : Mystic (Violeta Oscuro / Magenta Neón)
+    6. theme-royal      : Light Luxury (Blanco Humo / Dorado Metálico) [Modo Claro]
+    7. theme-mint       : Fresh (Gris Pizarra / Verde Menta)
+    8. theme-cotton     : Dreamy (Rosa Pastel / Turquesa Suave)
+    9. theme-terminal   : Hacker Retro (Negro Puro / Verde Fósforo)
+    10. theme-slate     : Corporate Dark (Gris Azulado / Teal Brillante)
+    
+    ==========================================================================
+-->
+<body class="overflow-x-hidden no-cursor theme-solar">
+
     <div class="custom-cursor" id="cursor"></div>
 
-    <!-- Navegación -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
         <div class="text-2xl font-bold font-syne tracking-tighter hover-target">LUMINA.</div>
         <button id="menu-toggle" class="text-3xl hover:text-[var(--color-primary)] transition-colors hover-target">
@@ -33,7 +54,6 @@
         </button>
     </nav>
 
-    <!-- Menú Desplegable -->
     <div id="nav-overlay" class="fixed inset-0 bg-black z-40 transform -translate-y-full transition-transform duration-700 ease-in-out flex flex-col justify-center items-center text-center">
         <div class="space-y-8">
             <a href="#inicio" class="nav-link block text-4xl md:text-6xl font-syne font-bold hover:text-[var(--color-primary)] transition-colors hover-target">INICIO</a>
@@ -45,7 +65,6 @@
         <div class="absolute bottom-10 text-gray-500 text-sm tracking-widest">SCROLL TO CLOSE</div>
     </div>
 
-    <!-- BARRA LATERAL -->
     <div class="side-nav">
         <a href="#inicio" class="nav-dot active hover-target" data-target="inicio" aria-label="Inicio"></a>
         <a href="#intro" class="nav-dot hover-target" data-target="intro" aria-label="Intro"></a>
@@ -55,69 +74,43 @@
         <a href="#contacto" class="nav-dot hover-target" data-target="contacto" aria-label="Contacto"></a>
     </div>
 
-    <!-- BOTÓN VOLVER ARRIBA -->
     <button id="scrollTopBtn" class="scroll-top-btn hover-target" aria-label="Volver arriba">
         <i class="ph ph-arrow-up"></i>
     </button>
 
-    <!-- SECCIÓN HERO EXTENDIDA (800vh) -->
+    <!-- SECCIÓN HERO -->
     <div id="inicio" class="hero-scroll-container">
-        
-        <!-- Viewport pegajoso -->
         <div class="sticky-viewport">
-            
-            <!-- FONDO ANIMADO Y FIGURAS -->
             <div class="hero-bg-layer">
                 <div class="blob blob-1"></div>
                 <div class="blob blob-2"></div>
-                
                 <div class="shape shape-triangle" data-auto-rotate="15" data-scroll-speed="200"></div>
                 <div class="shape shape-ring" data-auto-rotate="-10" data-scroll-speed="150"></div>
                 <div class="shape shape-diamond" data-auto-rotate="25" data-scroll-speed="300"></div>
                 <div class="shape shape-cross" data-auto-rotate="-30" data-scroll-speed="-100"></div>
-                
                 <div class="grid-overlay"></div>
             </div>
-
-            <!-- ESCENA 1: Título -->
             <div class="hero-scene scene-1 active">
-                <h1 class="hero-title">
-                    DISEÑO<br>
-                    <span class="filled">VISUAL</span><br>
-                    <span>IMPACTO</span>
-                </h1>
+                <h1 class="hero-title">DISEÑO<br><span class="filled">VISUAL</span><br><span>IMPACTO</span></h1>
             </div>
-
-            <!-- BOTÓN SCROLL NAVEGACIÓN HERO -->
             <button id="scroll-start-btn" class="scroll-indicator hover-target">
                 <span>SCROLL PARA EXPLORAR</span>
                 <i class="ph ph-caret-down animate-bounce"></i>
             </button>
-
-
-            <!-- ESCENA 2: Concepto -->
             <div class="hero-scene scene-2">
                 <div class="info-box glass-panel">
                     <h2 class="text-4xl md:text-6xl font-bold mb-4 text-[var(--color-primary)]">01.</h2>
                     <h3 class="text-3xl font-bold mb-4">MÁS QUE PÍXELES</h3>
-                    <p class="text-xl text-gray-300 max-w-lg">
-                        Construimos sistemas visuales que respiran. No es solo lo que ves, es lo que sientes.
-                    </p>
+                    <p class="text-xl text-gray-300 max-w-lg">Construimos sistemas visuales que respiran. No es solo lo que ves, es lo que sientes.</p>
                 </div>
             </div>
-
-            <!-- ESCENA 3: Estrategia -->
             <div class="hero-scene scene-3">
                 <div class="info-box glass-panel text-right">
                     <h2 class="text-4xl md:text-6xl font-bold mb-4 text-[var(--color-accent)]">02.</h2>
                     <h3 class="text-3xl font-bold mb-4">ESTRATEGIA PURA</h3>
-                    <p class="text-xl text-gray-300 max-w-lg ml-auto">
-                        Fusionamos datos con intuición artística. Diseño inteligente para un mundo ruidoso.
-                    </p>
+                    <p class="text-xl text-gray-300 max-w-lg ml-auto">Fusionamos datos con intuición artística. Diseño inteligente para un mundo ruidoso.</p>
                 </div>
             </div>
-
-            <!-- ESCENA 4: Innovación -->
             <div class="hero-scene scene-4">
                 <div class="flex flex-col items-center text-center">
                     <div class="w-24 h-24 rounded-full border-2 border-[var(--color-primary)] flex items-center justify-center mb-6 text-4xl text-[var(--color-primary)]">
@@ -127,43 +120,31 @@
                     <h3 class="text-2xl font-light tracking-[0.5em] uppercase">Sin Límites</h3>
                 </div>
             </div>
-
-            <!-- ESCENA 5: Final / Call to Action -->
             <div class="hero-scene scene-5">
                 <div class="info-box glass-panel text-center border-[var(--color-primary)]">
                     <h2 class="text-4xl font-bold mb-4">¿LISTO PARA EL CAMBIO?</h2>
-                    <p class="text-lg text-gray-300 mb-0">
-                        El futuro de tu marca comienza un scroll más abajo.
-                    </p>
+                    <p class="text-lg text-gray-300 mb-0">El futuro de tu marca comienza un scroll más abajo.</p>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- CONTENIDO RESTANTE -->
     <main class="relative z-10 bg-[var(--color-bg)] shadow-[0_-50px_100px_rgba(0,0,0,1)]">
         
-        <!-- SECCIÓN 1: INTRO -->
         <section id="intro" class="section-padding container mx-auto fade-in pt-32">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h4 class="text-[var(--color-primary)] uppercase tracking-widest mb-4 font-bold">La Agencia</h4>
                     <h2 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">BIENVENIDO AL <br> FUTURO.</h2>
-                    <p class="text-gray-400 text-lg leading-relaxed mb-8">
-                        Has cruzado el umbral. Ahora explora cómo transformamos tu realidad digital con diseños que desafían lo convencional.
-                    </p>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-8">Has cruzado el umbral. Ahora explora cómo transformamos tu realidad digital con diseños que desafían lo convencional.</p>
                     <a href="#contacto" class="btn-primary hover-target">Iniciar Proyecto</a>
                 </div>
                 <div class="relative rounded-lg overflow-hidden shadow-2xl h-[500px] intro-img-wrapper hover-target">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" 
-                         alt="Diseño Abstracto Fluido" 
-                         class="animate-zoom-gray w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" alt="Diseño Abstracto Fluido" class="animate-zoom-gray w-full h-full object-cover">
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN 2: SERVICIOS -->
         <section id="servicios" class="section-padding bg-[#0f0f0f]">
             <div class="container mx-auto">
                 <h2 class="text-4xl md:text-5xl font-bold mb-12 px-4">SERVICIOS</h2>
@@ -187,61 +168,79 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 3: PORTAFOLIO -->
         <section id="portafolio" class="section-padding container mx-auto px-4">
             <h2 class="text-4xl md:text-6xl font-bold mb-12 text-center">OBRAS SELECCIONADAS</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item fade-in hover-target"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="P1"><div class="gallery-overlay"><h3>NEON FLUX</h3></div></div>
-                <div class="gallery-item fade-in hover-target"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=600&auto=format&fit=crop" alt="P2"><div class="gallery-overlay"><h3>LIQUID DREAM</h3></div></div>
-                <div class="gallery-item fade-in hover-target"><img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="P3"><div class="gallery-overlay"><h3>RETRO WAVE</h3></div></div>
-                <div class="gallery-item fade-in hover-target"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop" alt="P4"><div class="gallery-overlay"><h3>DARK MATTER</h3></div></div>
+            <div class="gallery-clean">
+                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="P1"></div>
+                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=600&auto=format&fit=crop" alt="P2"></div>
+                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="P3"></div>
+                <div class="item hover-target"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop" alt="P4"></div>
             </div>
         </section>
 
-        <!-- SECCIÓN 4: GALERÍA VISUAL (SWIPER JS IMPLEMENTADO) -->
-        <section id="galeria" class="section-padding bg-[#0a0a0a] overflow-hidden">
+        <!-- SECCIÓN 4: GALERÍA VISUAL (ESTRUCTURA UNIFICADA) -->
+        <section id="galeria" class="section-padding bg-[#0a0a0a] min-h-[800px] overflow-hidden">
             <div class="container mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center text-[var(--color-primary)]">GALERÍA VISUAL</h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-[var(--color-primary)]">GALERÍA VISUAL</h2>
                 
-                <!-- Swiper -->
-                <div class="swiper mySwiper w-full py-12">
-                    <div class="swiper-wrapper">
-                        <!-- Slides (8 imágenes) -->
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto1.jpg" alt="G1">
-                            <div class="slide-caption">ABSTRACT 3D</div>
+                <!-- CONTENEDOR MAESTRO: Aquí ocurre la magia -->
+                <!-- La clase 'swiper' es necesaria para el modo Slider, las otras clases se añadirán via JS -->
+                <div id="visual-gallery" class="swiper gallery-visual-container">
+                    
+                    <!-- Wrapper (Requerido por Swiper, usado como Grid en otros modos) -->
+                    <div class="swiper-wrapper gallery-wrapper">
+                        
+                        <!-- IMAGEN 1 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto1.jpg" alt="Abstract 3D">
+                            <div class="card-caption">ABSTRACT 3D</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto2.jpg" alt="G2">
-                            <div class="slide-caption">COLOR POP</div>
+                        
+                        <!-- IMAGEN 2 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto2.jpg" alt="Color Pop">
+                            <div class="card-caption">COLOR POP</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto3.jpg" alt="G3">
-                            <div class="slide-caption">MINIMAL TECH</div>
+                        
+                        <!-- IMAGEN 3 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto3.jpg" alt="Minimal Tech">
+                            <div class="card-caption">MINIMAL TECH</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto4.jpg" alt="G4">
-                            <div class="slide-caption">GLITCH ART</div>
+                        
+                        <!-- IMAGEN 4 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto4.jpg" alt="Glitch Art">
+                            <div class="card-caption">GLITCH ART</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto5.jpg" alt="G5">
-                            <div class="slide-caption">CYBERPUNK</div>
+
+                        <!-- IMAGEN 5 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto5.jpg" alt="Cyberpunk">
+                            <div class="card-caption">CYBERPUNK</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto6.jpg" alt="G6">
-                            <div class="slide-caption">VAPORWAVE</div>
+                        
+                        <!-- IMAGEN 6 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto6.jpg" alt="Vaporwave">
+                            <div class="card-caption">VAPORWAVE</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto7.jpg" alt="G7">
-                            <div class="slide-caption">FLUIDITY</div>
+                        
+                        <!-- IMAGEN 7 -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto7.jpg" alt="Fluidity">
+                            <div class="card-caption">FLUIDITY</div>
                         </div>
-                        <div class="swiper-slide hover-target">
-                            <img src="assets/galeria2/foto8.jpg" alt="G8">
-                            <div class="slide-caption">GRADIENTS</div>
+                        
+                        <!-- IMAGEN 8 (Reutilizada imagen 1 para completar 8) -->
+                        <div class="swiper-slide gallery-card hover-target">
+                            <img src="assets/galeria2/foto8.jpg" alt="Gradients">
+                            <div class="card-caption">GRADIENTS</div>
                         </div>
+
                     </div>
                     
-                    <!-- Navegación Swiper -->
+                    <!-- Controles Swiper (Se ocultan automáticamente en otros modos) -->
                     <div class="swiper-pagination"></div>
                     <div class="swiper-button-next hover-target"></div>
                     <div class="swiper-button-prev hover-target"></div>
@@ -249,7 +248,6 @@
             </div>
         </section>
 
-        <!-- CONTACTO -->
         <section id="contacto" class="section-padding bg-[#0f0f0f]">
             <div class="container mx-auto px-4 text-center max-w-2xl">
                 <h2 class="text-4xl font-bold mb-8">CONTACTO</h2>
@@ -267,7 +265,6 @@
         </footer>
     </main>
 
-    <!-- Swiper JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script/script.js"></script>
 </body>
