@@ -1,4 +1,6 @@
-/* ------------------- CSS PERSONALIZADO ------------------- */
+/* -----------------------------------------------------------
+   STYLES.CSS - ESTILOS PRINCIPALES Y ESTRUCTURA
+   ----------------------------------------------------------- */
         
 :root {
     --color-bg: #050505;
@@ -9,7 +11,7 @@
     --font-body: 'Inter', sans-serif;
 }
 
-/* FIX: Fondo HTML para evitar recuadros grises en overscroll */
+/* FIX: Fondo HTML para evitar recuadros grises en overscroll móvil */
 html {
     background-color: var(--color-bg);
     scroll-behavior: smooth;
@@ -28,12 +30,13 @@ h1, h2, h3, h4, .nav-link {
     font-family: var(--font-display);
 }
 
-/* --- ESTILOS DE NAVEGACIÓN --- */
+/* --- ESTILOS DE NAVEGACIÓN (MENU OVERLAY) --- */
 #nav-overlay.open {
     transform: translateY(0);
 }
 
 /* --- CURSOR PERSONALIZADO --- */
+/* Por defecto oculto en móviles/tablets */
 .custom-cursor {
     display: none !important;
 }
@@ -41,6 +44,7 @@ body {
     cursor: auto !important;
 }
 
+/* Solo para dispositivos con puntero fino (Mouse) */
 @media (hover: hover) and (pointer: fine) {
     body.no-cursor {
         cursor: none !important;
@@ -65,6 +69,7 @@ body {
         mix-blend-mode: difference;
     }
 
+    /* Estado Activo (Hover): Efecto Cristal + Borde Neon */
     .custom-cursor.active {
         width: 60px;
         height: 60px;
@@ -80,7 +85,7 @@ body {
 }
 
 
-/* --- BARRA LATERAL --- */
+/* --- BARRA LATERAL (Puntos de Navegación) --- */
 .side-nav {
     position: fixed;
     right: 2rem;
@@ -165,7 +170,7 @@ body {
 }
 
 
-/* --- HERO SCROLLYTELLING --- */
+/* --- HERO SCROLLYTELLING (SECCIÓN PRINCIPAL) --- */
 .hero-scroll-container {
     height: 800vh;
     position: relative;
@@ -176,8 +181,7 @@ body {
     position: sticky;
     top: 0;
     height: 100vh;
-    /* FIX CRÍTICO: Usar svh (Small Viewport Height) para móviles. 
-       Esto evita que la barra de dirección del navegador cambie el tamaño y cause saltos. */
+    /* FIX CRÍTICO: Usar svh para móviles para evitar saltos por barra de navegación */
     height: 100svh; 
     width: 100%;
     overflow: hidden;
@@ -202,6 +206,7 @@ body {
     opacity: 0.5;
 }
 
+/* Elementos de Fondo (Blobs) */
 .blob {
     position: absolute;
     border-radius: 50%;
@@ -219,6 +224,7 @@ body {
     opacity: 0.3;
 }
 
+/* Figuras Geométricas */
 .shape {
     position: absolute;
     pointer-events: none;
@@ -244,7 +250,7 @@ body {
     opacity: 0.4; z-index: 2;
 }
 
-/* Escenas */
+/* Escenas de Texto */
 .hero-scene {
     position: absolute;
     width: 100%;
@@ -260,7 +266,6 @@ body {
     padding: 2rem;
 }
 
-/* FIX TITULO: Clamp ajustado para móviles */
 .hero-title {
     font-size: clamp(2.5rem, 8vw, 8rem);
     font-weight: 800;
@@ -278,6 +283,7 @@ body {
     -webkit-text-stroke: 0;
 }
 
+/* Botón "Scroll para Explorar" */
 .scroll-indicator {
     position: absolute;
     bottom: 3rem;
@@ -308,8 +314,9 @@ body {
     max-width: 800px;
 }
 
-/* --- CLASES COMUNES --- */
+/* --- CLASES COMUNES Y COMPONENTES --- */
 .section-padding { padding: 5rem 1rem; }
+
 .btn-primary {
     background-color: var(--color-primary);
     color: #000;
@@ -399,6 +406,7 @@ body {
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+/* --- EFECTO ZOOM CONTINUO IMAGEN INTRO --- */
 @keyframes slow-zoom-out {
     0% { transform: scale(1.15); }
     100% { transform: scale(1.0); }
@@ -421,7 +429,7 @@ body {
     box-shadow: 0 0 25px rgba(205, 255, 0, 0.2); 
 }
 
-/* --- SWIPER JS --- */
+/* --- SWIPER JS CUSTOM STYLES (BASE) --- */
 .swiper {
     width: 100%;
     padding-top: 50px;
@@ -438,17 +446,7 @@ body {
     transition: border-color 0.3s;
 }
 .swiper-slide:hover { border-color: var(--color-primary); }
-
-.swiper-slide img { 
-    display: block; 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover;
-    /* Efecto Zoom de Alejamiento */
-    animation: slow-zoom-out 12s ease-in-out infinite alternate;
-    will-change: transform;
-}
-
+.swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .slide-caption {
     position: absolute; bottom: 0; left: 0; width: 100%; padding: 1rem;
     background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
@@ -460,65 +458,187 @@ body {
 .swiper-pagination-bullet { background: #fff !important; opacity: 0.5; }
 .swiper-pagination-bullet-active { background: var(--color-primary) !important; opacity: 1; }
 
-/* --- AJUSTES RESPONSIVE FINALES --- */
+/* --- TABS DE GALERÍA (SELECTORES) --- */
+.tab-btn {
+    background: transparent;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+.tab-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: 0 0 10px rgba(205, 255, 0, 0.2);
+    opacity: 1;
+}
+.tab-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #000;
+    box-shadow: 0 0 15px var(--color-primary);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.gallery-view {
+    display: none; 
+    animation: fadeInGallery 0.5s ease-in-out;
+}
+.gallery-view.active { display: block; }
+
+@keyframes fadeInGallery {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================================
+   SECCIÓN DE TESTIMONIOS (MARQUEE INFINITO)
+   ======================================================== */
+.testimonial-marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* Vital para que no haga scroll horizontal */
+    /* Máscara de desvanecimiento en los bordes */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    padding: 2rem 0;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 2rem; /* Espacio entre tarjetas */
+    width: max-content; /* Se ajusta al contenido total */
+    animation: scroll-left 40s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused; /* Se detiene al pasar el mouse */
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Se mueve la mitad del track (el duplicado) */
+}
+
+/* Tarjeta de Testimonio */
+.testimonial-card {
+    width: 350px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    flex-shrink: 0; /* Evita que se encojan */
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.testimonial-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+}
+
+.testi-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.testi-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.testi-header h4 {
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.testi-header span {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.testi-icon {
+    margin-left: auto;
+    font-size: 2rem;
+    color: var(--color-primary);
+    opacity: 0.3;
+}
+
+.testimonial-card p {
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+/* --- AJUSTES RESPONSIVE FINALES (Móvil) --- */
 @media (max-width: 768px) {
-    /* Header Fix: Fondo sólido y altura segura para que no se recorte */
+    /* Header Fix */
     nav {
-        /* Padding superior dinámico para evitar el notch */
         padding-top: max(1.5rem, env(safe-area-inset-top)) !important;
         padding-bottom: 1.5rem !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
-        
-        /* Fondo Negro Sólido arriba -> degradado abajo. Oculta el notch y la barra de estado */
         background: linear-gradient(to bottom, #050505 0%, #050505 50%, rgba(5,5,5,0.8) 100%) !important;
-        
         mix-blend-mode: normal !important; 
         z-index: 1000;
-        
         position: fixed !important;
         top: 0 !important;
         left: 0;
         width: 100%;
-        
         height: auto !important;
     }
     
-    nav button {
-        margin-top: 0.2rem;
-    }
+    nav button { margin-top: 0.2rem; }
     
-    /* Hero Title Fix */
     .hero-title {
         font-size: clamp(2.5rem, 10vw, 4rem) !important; 
         padding: 0 1rem;
-        /* Margen grande para separar del header fijo */
         margin-top: 7rem !important; 
     }
 
-    /* FIX BOTÓN SCROLL: Subirlo para que no lo tape la UI del navegador */
     .scroll-indicator {
         bottom: 15vh !important; 
         z-index: 60;
     }
 
-    /* FIX BOTÓN TOP: Subirlo */
     .scroll-top-btn {
         bottom: 5rem !important;
         right: 1.5rem !important;
     }
 
-    /* Intro Image Height */
     .intro-img-wrapper { height: 300px !important; }
 
-    /* Swiper Mobile */
     .swiper-slide {
         width: 260px !important; 
         height: 260px !important; 
         max-width: 80vw;
     }
 
-    /* Gallery Grid consistency */
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
         gap: 1rem;
@@ -531,52 +651,13 @@ body {
         width: 10px; height: 10px;
         margin-bottom: 0.5rem;
     }
-}
 
-/* --- NUEVO: ESTILOS PARA LOS TABS DE GALERÍA --- */
-.tab-btn {
-    background: transparent;
-    border: 1px solid var(--color-text);
-    color: var(--color-text);
-    padding: 0.8rem 1.5rem;
-    font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 30px;
-    cursor: pointer; /* En móvil usará puntero nativo */
-    transition: all 0.3s ease;
-    opacity: 0.7;
-}
-
-.tab-btn:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    box-shadow: 0 0 10px rgba(205, 255, 0, 0.2);
-    opacity: 1;
-}
-
-/* Estado activo del botón */
-.tab-btn.active {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #000; /* Texto oscuro para contraste */
-    box-shadow: 0 0 15px var(--color-primary);
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-/* Contenedores de vistas */
-.gallery-view {
-    display: none; /* Oculto por defecto */
-    animation: fadeInGallery 0.5s ease-in-out;
-}
-
-.gallery-view.active {
-    display: block; /* Solo el activo se muestra */
-}
-
-@keyframes fadeInGallery {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    /* Testimonios Responsive */
+    .testimonial-card {
+        width: 280px;
+        padding: 1.5rem;
+    }
+    .marquee-track {
+        animation-duration: 30s;
+    }
 }
