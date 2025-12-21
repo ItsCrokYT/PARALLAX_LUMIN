@@ -563,6 +563,8 @@ body {
     justify-content: center;
     font-size: 1.5rem;
     font-weight: bold;
+    /* FIX CRÍTICO: Evitar que el avatar se aplaste en flexbox */
+    flex-shrink: 0;
 }
 
 .testi-header h4 {
