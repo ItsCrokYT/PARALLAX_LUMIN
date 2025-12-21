@@ -1,30 +1,136 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 0. CURSOR Y CONFIGURACIÓN BÁSICA
+    // 0. CURSOR (Solo Desktop) - Código intacto
     // ==========================================
     const cursor = document.getElementById('cursor');
     const hoverTargets = document.querySelectorAll('.hover-target, a, button, input, textarea');
-    // Detectar si es dispositivo táctil
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
     if (!isTouchDevice && cursor) {
         cursor.style.opacity = '0';
         const moveCursor = (x, y) => { cursor.style.left = `${x}px`; cursor.style.top = `${y}px`; };
-        
         document.addEventListener('mousemove', (e) => {
             cursor.style.opacity = '1';
             requestAnimationFrame(() => moveCursor(e.clientX, e.clientY));
         });
-        
         hoverTargets.forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('active'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
         });
     }
 
+    // =========================================================
+    // 1. CONFIGURACIÓN DE GALERÍA VISUAL (CONTROL MAESTRO)
+    // =========================================================
+    
+    // Cambia a 'film' para probar el nuevo carrusel
+    const currentGalleryMode = 'film'; 
+
+    const galleryContainer = document.getElementById('visual-gallery');
+    let swiperInstance = null;
+
+    function setGalleryMode(mode) {
+        if (!galleryContainer) return;
+
+        // 1. Limpiar clases de modo
+        galleryContainer.classList.remove(
+            'mode-bento', 'mode-accordion', 'mode-hex', 'mode-focus',
+            'mode-circle', 'mode-isometric', 'mode-chaos', 'mode-film',
+            'mode-glitch', 'mode-stack'
+        );
+
+        // Añadir clase del modo actual siempre (para CSS específico)
+        galleryContainer.classList.add(`mode-${mode}`);
+
+        // 2. Gestionar Swiper según el modo
+        // Modos que requieren Swiper: 'swiper' (3D) y 'film' (Carrusel)
+        if (mode === 'swiper' || mode === 'film') {
+            
+            // Destruir instancia anterior si existe (para reconfigurar)
+            if (swiperInstance) {
+                swiperInstance.destroy(true, true);
+                swiperInstance = null;
+            }
+
+            galleryContainer.classList.add('swiper');
+            
+            // Inicializar con la configuración específica del modo
+            initSwiper(mode);
+
+        } else {
+            // Modos CSS Grid/Flex (Bento, Hex, etc.)
+            if (swiperInstance) {
+                swiperInstance.destroy(true, true);
+                swiperInstance = null;
+            }
+            galleryContainer.classList.remove('swiper');
+        }
+    }
+
+    function initSwiper(mode) {
+        if (typeof Swiper === 'undefined') return;
+
+        let config = {};
+
+        if (mode === 'swiper') {
+            // Configuración 3D Coverflow (Original)
+            config = {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                coverflowEffect: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+                pagination: { el: ".swiper-pagination", clickable: true },
+                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                loop: true,
+                autoplay: { delay: 2500, disableOnInteraction: false },
+                observer: true,
+                observeParents: true
+            };
+        } 
+        else if (mode === 'film') {
+            // Configuración Carrusel Continuo (Film Strip)
+            config = {
+                slidesPerView: "auto", // Ancho automático basado en CSS
+                spaceBetween: 0,       // Pegados como cinta
+                loop: true,            // Infinito
+                speed: 5000,           // Velocidad lenta y constante
+                allowTouchMove: true,  // Permitir arrastrar
+                autoplay: {
+                    delay: 0,          // Sin pausa inicial
+                    disableOnInteraction: false, // Seguir rodando tras tocar
+                    pauseOnMouseEnter: true      // Pausar al pasar el mouse (tipo marquee)
+                },
+                // Desactivar efectos 3D
+                effect: "slide",
+                // Animación lineal pura
+                freeMode: true,
+                freeModeMomentum: false,
+                
+                // Ocultar controles estándar
+                pagination: false,
+                navigation: false,
+                observer: true,
+                observeParents: true
+            };
+        }
+
+        swiperInstance = new Swiper("#visual-gallery", config);
+    }
+
+    // Inicializar
+    setGalleryMode(currentGalleryMode);
+
+
     // ==========================================
-    // 1. LIGHTBOX (VISOR DE IMÁGENES PANTALLA COMPLETA)
+    // 2. LIGHTBOX (VISOR DE IMÁGENES)
     // ==========================================
     const lightboxModal = document.getElementById('lightbox-modal');
     const lightboxWrapper = lightboxModal ? lightboxModal.querySelector('.swiper-wrapper') : null;
@@ -33,11 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openLightbox(startIndex) {
         if (!lightboxWrapper) return;
-
-        // 1. Recopilar imágenes originales
         const galleryImages = Array.from(document.querySelectorAll('#visual-gallery .gallery-card img'));
         
-        // 2. Limpiar y llenar el lightbox
         lightboxWrapper.innerHTML = '';
         galleryImages.forEach(img => {
             const slide = document.createElement('div');
@@ -48,27 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
             lightboxWrapper.appendChild(slide);
         });
 
-        // 3. Mostrar Modal
         lightboxModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Bloquear scroll
+        document.body.style.overflow = 'hidden';
 
-        // 4. Inicializar o Actualizar Swiper
         if (!lightboxSwiper) {
-            if (typeof Swiper !== 'undefined') {
-                lightboxSwiper = new Swiper(".lightbox-swiper", {
-                    zoom: true,
-                    navigation: {
-                        nextEl: ".lightbox-swiper .swiper-button-next",
-                        prevEl: ".lightbox-swiper .swiper-button-prev",
-                    },
-                    pagination: {
-                        el: ".lightbox-swiper .swiper-pagination",
-                        type: "fraction",
-                    },
-                    keyboard: { enabled: true },
-                    initialSlide: startIndex,
-                });
-            }
+            lightboxSwiper = new Swiper(".lightbox-swiper", {
+                zoom: true,
+                navigation: { nextEl: ".lightbox-swiper .swiper-button-next", prevEl: ".lightbox-swiper .swiper-button-prev" },
+                pagination: { el: ".lightbox-swiper .swiper-pagination", type: "fraction" },
+                keyboard: { enabled: true },
+                initialSlide: startIndex,
+            });
         } else {
             lightboxSwiper.update();
             lightboxSwiper.slideTo(startIndex, 0);
@@ -82,25 +175,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event Delegation para abrir lightbox desde cualquier galería
+    // Event Delegation
     const galleryContainerRef = document.getElementById('visual-gallery');
     if (galleryContainerRef) {
         galleryContainerRef.addEventListener('click', (e) => {
             const card = e.target.closest('.gallery-card');
             if (card) {
-                // Calcular índice real
-                const allCards = Array.from(galleryContainerRef.querySelectorAll('.gallery-card'));
-                let index = allCards.indexOf(card);
+                // Lógica para encontrar el índice real considerando loops de Swiper
+                let index = 0;
                 
-                // Ajuste si estamos en modo Swiper (Loop duplica slides)
-                if (card.hasAttribute('data-swiper-slide-index')) {
-                    index = parseInt(card.getAttribute('data-swiper-slide-index'));
-                } else if (swiperInstance && swiperInstance.realIndex !== undefined) {
-                     // Si clicamos el slide activo en modo loop
-                     if (card.classList.contains('swiper-slide-active')) {
-                        index = swiperInstance.realIndex;
-                     }
+                // Si es un slide de Swiper (tiene atributos específicos)
+                if (swiperInstance && card.classList.contains('swiper-slide')) {
+                    // Usar el índice real proporcionado por Swiper para loops
+                    const slideIndex = card.getAttribute('data-swiper-slide-index');
+                    index = slideIndex ? parseInt(slideIndex) : swiperInstance.getSlideIndex(card);
+                } else {
+                    // Modo Grid/CSS normal
+                    const allCards = Array.from(galleryContainerRef.querySelectorAll('.gallery-card'));
+                    index = allCards.indexOf(card);
                 }
+                
                 openLightbox(index);
             }
         });
@@ -112,99 +206,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // =========================================================
-    // 2. CONFIGURACIÓN DE GALERÍA VISUAL (CONTROL MAESTRO)
-    // =========================================================
-    
-    // -------------------------------------------------------------
-    // ¡CAMBIA ESTA VARIABLE PARA ELEGIR LA GALERÍA ACTIVA!
-    //
-    // Opciones disponibles:
-    // 'swiper'    : Slider 3D Interactivo (Por defecto)
-    // 'bento'     : Grid Asimétrico (Estilo Dashboard)
-    // 'accordion' : Acordeón Horizontal Expansivo
-    // 'hex'       : Panal de Abejas (Hexagonal)
-    // 'focus'     : Focus Grid (Modo Moderno)
-    // 'circle'    : Esferas que revelan cuadrados
-    // 'isometric' : Perspectiva Isométrica 3D
-    // 'chaos'     : Mosaico Asimétrico Moderno (Tetris)
-    // 'film'      : Cinta de Película Vertical (Cinemático)
-    // -------------------------------------------------------------
-    
-    const currentGalleryMode = 'chaos'; // <-- ¡PRUEBA CAMBIANDO ESTO!
+    // ==========================================
+    // 3. PERSONALIZADOR (BOTONES)
+    // ==========================================
+    const customizerToggle = document.getElementById('customizer-toggle');
+    const customizerPanel = document.getElementById('customizer-panel');
+    const themeBtns = document.querySelectorAll('.theme-btn');
+    const modeBtns = document.querySelectorAll('.mode-btn');
 
-    const galleryContainer = document.getElementById('visual-gallery');
-    let swiperInstance = null;
-
-    function setGalleryMode(mode) {
-        if (!galleryContainer) return;
-
-        // 1. Limpiar TODAS las clases de modo anteriores
-        galleryContainer.classList.remove(
-            'mode-bento', 'mode-accordion', 'mode-hex', 'mode-focus',
-            'mode-circle', 'mode-isometric', 'mode-chaos', 'mode-film',
-            'mode-glitch', 'mode-stack'
-        );
-
-        // 2. Lógica de activación
-        if (mode === 'swiper') {
-            galleryContainer.classList.add('swiper');
-            if (!swiperInstance) initSwiper();
-        } else {
-            if (swiperInstance) {
-                swiperInstance.destroy(true, true);
-                swiperInstance = null;
-            }
-            // Quitar clase swiper para no interferir con CSS Grid/Flex
-            galleryContainer.classList.remove('swiper');
-            // Añadir clase del modo específico
-            galleryContainer.classList.add(`mode-${mode}`);
-        }
+    if (customizerToggle && customizerPanel) {
+        customizerToggle.addEventListener('click', () => {
+            customizerPanel.classList.toggle('active');
+            const icon = customizerToggle.querySelector('i');
+            if (customizerPanel.classList.contains('active')) icon.classList.replace('ph-gear', 'ph-x');
+            else icon.classList.replace('ph-x', 'ph-gear');
+        });
     }
 
-    function initSwiper() {
-        if (typeof Swiper !== 'undefined') {
-            swiperInstance = new Swiper("#visual-gallery", {
-                effect: "coverflow",
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: "auto",
-                coverflowEffect: {
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true,
-                },
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                loop: true,
-                autoplay: { delay: 2500, disableOnInteraction: false },
-                observer: true,
-                observeParents: true
-            });
-        }
-    }
+    themeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            themeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const themeClass = btn.getAttribute('data-theme');
+            document.body.className = document.body.className.replace(/theme-\w+/g, ''); // Limpiar temas previos regex
+            document.body.classList.add(themeClass);
+            if(document.body.classList.contains('no-cursor')) document.body.classList.add('no-cursor'); // Mantener no-cursor
+        });
+    });
 
-    setGalleryMode(currentGalleryMode);
+    modeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const mode = btn.getAttribute('data-mode');
+            setGalleryMode(mode);
+            const gallerySection = document.getElementById('galeria');
+            if(gallerySection) gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
 
 
     // ==========================================
-    // 3. NAVEGACIÓN Y MENÚ MÓVIL
+    // 4. GENERAL (MENU, HERO, SCROLL)
     // ==========================================
+    // ... (Código estándar de menú y animaciones Hero se mantiene igual) ...
     const menuBtn = document.getElementById('menu-toggle');
     const navOverlay = document.getElementById('nav-overlay');
     const navLinks = document.querySelectorAll('.nav-link');
     const menuIcon = menuBtn ? menuBtn.querySelector('i') : null;
     
     function toggleMenu() {
-        if (navOverlay.classList.contains('open')) {
+        if(navOverlay.classList.contains('open')) {
             navOverlay.classList.remove('open');
             if(menuIcon) menuIcon.classList.replace('ph-x', 'ph-list');
         } else {
@@ -212,14 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if(menuIcon) menuIcon.classList.replace('ph-list', 'ph-x');
         }
     }
-
     if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
     navLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-
-    // ==========================================
-    // 4. ANIMACIONES HERO, SCROLL Y FIGURAS
-    // ==========================================
     const heroContainer = document.querySelector('.hero-scroll-container');
     const scenes = document.querySelectorAll('.hero-scene'); 
     const blob1 = document.querySelector('.blob-1');
@@ -230,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navDots = document.querySelectorAll('.nav-dot');
     const sections = ['inicio', 'intro', 'servicios', 'portafolio', 'galeria', 'contacto'];
 
-    // Funcionalidad Botón Scroll Hero
     if (scrollBtn) {
         scrollBtn.addEventListener('click', () => {
             if (!heroContainer) return;
@@ -245,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Funcionalidad Botón Volver Arriba
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
@@ -270,7 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', scrollTop > windowHeight);
 
-        // Scroll Spy (Barra lateral)
         let currentSectionId = 'inicio';
         if (heroContainer) {
             const heroHeight = heroContainer.offsetHeight;
@@ -293,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dot.getAttribute('data-target') === currentSectionId) dot.classList.add('active');
         });
 
-        // Animaciones dentro del Hero
         if (heroContainer) {
             const heroHeight = heroContainer.offsetHeight;
             if (scrollTop < heroHeight + 100) {
@@ -318,7 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     scrollBtn.style.pointerEvents = btnOp > 0.1 ? 'auto' : 'none';
                 }
 
-                // Scenes
                 let s1Op = 0;
                 if (p < 0.05) s1Op = p / 0.05;
                 else if (p < 0.15) s1Op = 1;
@@ -345,9 +387,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animate();
 
-    // ==========================================
-    // 5. INTERSECTION OBSERVER (FADE IN GENERAL)
-    // ==========================================
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -355,3 +394,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
+
