@@ -1,36 +1,119 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 0. CURSOR PERSONALIZADO (SOLO ESCRITORIO)
+    // 0. CURSOR Y CONFIGURACIÓN BÁSICA
     // ==========================================
     const cursor = document.getElementById('cursor');
     const hoverTargets = document.querySelectorAll('.hover-target, a, button, input, textarea');
-    
-    // DETECCIÓN ROBUSTA: Si el dispositivo es táctil (coarse pointer), NO activamos el cursor custom.
+    // Detectar si es dispositivo táctil
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
     if (!isTouchDevice && cursor) {
-        // Inicialmente oculto hasta que se mueva el mouse
         cursor.style.opacity = '0';
-
-        const moveCursor = (x, y) => {
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-        };
-
+        const moveCursor = (x, y) => { cursor.style.left = `${x}px`; cursor.style.top = `${y}px`; };
+        
         document.addEventListener('mousemove', (e) => {
             cursor.style.opacity = '1';
             requestAnimationFrame(() => moveCursor(e.clientX, e.clientY));
         });
-
+        
         hoverTargets.forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('active'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
         });
     }
 
+    // ==========================================
+    // 1. LIGHTBOX (VISOR DE IMÁGENES PANTALLA COMPLETA)
+    // ==========================================
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxWrapper = lightboxModal ? lightboxModal.querySelector('.swiper-wrapper') : null;
+    const lightboxClose = document.querySelector('.lightbox-close');
+    let lightboxSwiper;
+
+    function openLightbox(startIndex) {
+        if (!lightboxWrapper) return;
+
+        // 1. Recopilar imágenes originales
+        const galleryImages = Array.from(document.querySelectorAll('#visual-gallery .gallery-card img'));
+        
+        // 2. Limpiar y llenar el lightbox
+        lightboxWrapper.innerHTML = '';
+        galleryImages.forEach(img => {
+            const slide = document.createElement('div');
+            slide.classList.add('swiper-slide');
+            const newImg = document.createElement('img');
+            newImg.src = img.src;
+            slide.appendChild(newImg);
+            lightboxWrapper.appendChild(slide);
+        });
+
+        // 3. Mostrar Modal
+        lightboxModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+        // 4. Inicializar o Actualizar Swiper
+        if (!lightboxSwiper) {
+            if (typeof Swiper !== 'undefined') {
+                lightboxSwiper = new Swiper(".lightbox-swiper", {
+                    zoom: true,
+                    navigation: {
+                        nextEl: ".lightbox-swiper .swiper-button-next",
+                        prevEl: ".lightbox-swiper .swiper-button-prev",
+                    },
+                    pagination: {
+                        el: ".lightbox-swiper .swiper-pagination",
+                        type: "fraction",
+                    },
+                    keyboard: { enabled: true },
+                    initialSlide: startIndex,
+                });
+            }
+        } else {
+            lightboxSwiper.update();
+            lightboxSwiper.slideTo(startIndex, 0);
+        }
+    }
+
+    function closeLightbox() {
+        if (lightboxModal) {
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Event Delegation para abrir lightbox desde cualquier galería
+    const galleryContainerRef = document.getElementById('visual-gallery');
+    if (galleryContainerRef) {
+        galleryContainerRef.addEventListener('click', (e) => {
+            const card = e.target.closest('.gallery-card');
+            if (card) {
+                // Calcular índice real
+                const allCards = Array.from(galleryContainerRef.querySelectorAll('.gallery-card'));
+                let index = allCards.indexOf(card);
+                
+                // Ajuste si estamos en modo Swiper (Loop duplica slides)
+                if (card.hasAttribute('data-swiper-slide-index')) {
+                    index = parseInt(card.getAttribute('data-swiper-slide-index'));
+                } else if (swiperInstance && swiperInstance.realIndex !== undefined) {
+                     // Si clicamos el slide activo en modo loop
+                     if (card.classList.contains('swiper-slide-active')) {
+                        index = swiperInstance.realIndex;
+                     }
+                }
+                openLightbox(index);
+            }
+        });
+    }
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightboxModal && lightboxModal.classList.contains('active')) closeLightbox();
+    });
+
+
     // =========================================================
-    // 1. CONFIGURACIÓN DE GALERÍA VISUAL (CONTROL MAESTRO)
+    // 2. CONFIGURACIÓN DE GALERÍA VISUAL (CONTROL MAESTRO)
     // =========================================================
     
     // -------------------------------------------------------------
@@ -44,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 'focus'     : Focus Grid (Modo Moderno)
     // 'circle'    : Esferas que revelan cuadrados
     // 'isometric' : Perspectiva Isométrica 3D
-    // 'chaos'     : Mosaico Asimétrico Moderno
+    // 'chaos'     : Mosaico Asimétrico Moderno (Tetris)
     // 'film'      : Cinta de Película Vertical (Cinemático)
     // -------------------------------------------------------------
     
@@ -58,37 +141,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Limpiar TODAS las clases de modo anteriores
         galleryContainer.classList.remove(
-            'mode-bento', 
-            'mode-accordion', 
-            'mode-hex',
-            'mode-focus',
-            'mode-circle',
-            'mode-isometric',
-            'mode-chaos',
-            'mode-film',
-            'mode-glitch',
-            'mode-stack'
+            'mode-bento', 'mode-accordion', 'mode-hex', 'mode-focus',
+            'mode-circle', 'mode-isometric', 'mode-chaos', 'mode-film',
+            'mode-glitch', 'mode-stack'
         );
 
         // 2. Lógica de activación
         if (mode === 'swiper') {
-            // Añadir clase base necesaria para Swiper
             galleryContainer.classList.add('swiper');
-            
-            // Si no existe instancia, crearla
-            if (!swiperInstance) {
-                initSwiper();
-            }
+            if (!swiperInstance) initSwiper();
         } else {
-            // Si hay una instancia de Swiper activa, destruirla para limpiar estilos inline
             if (swiperInstance) {
                 swiperInstance.destroy(true, true);
                 swiperInstance = null;
             }
-            // IMPORTANTE: Quitar la clase 'swiper' para evitar conflictos CSS
+            // Quitar clase swiper para no interferir con CSS Grid/Flex
             galleryContainer.classList.remove('swiper');
-            
-            // Añadir la clase del modo específico
+            // Añadir clase del modo específico
             galleryContainer.classList.add(`mode-${mode}`);
         }
     }
@@ -116,37 +185,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevEl: ".swiper-button-prev",
                 },
                 loop: true,
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                },
+                autoplay: { delay: 2500, disableOnInteraction: false },
                 observer: true,
                 observeParents: true
             });
         }
     }
 
-    // Inicializar el modo seleccionado al cargar la página
     setGalleryMode(currentGalleryMode);
 
 
     // ==========================================
-    // 2. NAVEGACIÓN Y MENÚ MÓVIL
+    // 3. NAVEGACIÓN Y MENÚ MÓVIL
     // ==========================================
     const menuBtn = document.getElementById('menu-toggle');
     const navOverlay = document.getElementById('nav-overlay');
     const navLinks = document.querySelectorAll('.nav-link');
     const menuIcon = menuBtn ? menuBtn.querySelector('i') : null;
-    let isMenuOpen = false;
-
+    
     function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-        if (isMenuOpen) {
-            navOverlay.classList.add('open');
-            if(menuIcon) menuIcon.classList.replace('ph-list', 'ph-x');
-        } else {
+        if (navOverlay.classList.contains('open')) {
             navOverlay.classList.remove('open');
             if(menuIcon) menuIcon.classList.replace('ph-x', 'ph-list');
+        } else {
+            navOverlay.classList.add('open');
+            if(menuIcon) menuIcon.classList.replace('ph-list', 'ph-x');
         }
     }
 
@@ -155,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 3. ANIMACIONES HERO, SCROLL Y FIGURAS
+    // 4. ANIMACIONES HERO, SCROLL Y FIGURAS
     // ==========================================
     const heroContainer = document.querySelector('.hero-scroll-container');
     const scenes = document.querySelectorAll('.hero-scene'); 
@@ -173,29 +236,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!heroContainer) return;
             const heroHeight = heroContainer.offsetHeight;
             const windowHeight = window.innerHeight;
-            const scrollableDistance = heroHeight - windowHeight;
-            
-            if (scrollableDistance <= 0) return;
-
-            const currentP = window.scrollY / scrollableDistance;
-            // Puntos clave de las escenas
+            const scrollable = heroHeight - windowHeight;
+            if(scrollable <= 0) return;
+            const currentP = window.scrollY / scrollable;
             const targets = [0.1, 0.28, 0.48, 0.68, 0.88, 1.05];
-            
             const nextTarget = targets.find(t => t > currentP + 0.02) || targets[targets.length - 1];
-            const targetScrollY = nextTarget * scrollableDistance;
-
-            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+            window.scrollTo({ top: nextTarget * scrollable, behavior: 'smooth' });
         });
     }
 
     // Funcionalidad Botón Volver Arriba
     if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // Funciones Helper
     function setOpacity(element, opacity) {
         if (!element) return;
         element.style.opacity = Math.max(0, Math.min(1, opacity));
@@ -209,24 +263,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return 1 - (progress - peak) / (end - peak);
     }
 
-    // Loop de Animación (requestAnimationFrame)
     function animate() {
         const scrollTop = window.scrollY;
         const windowHeight = window.innerHeight;
         const time = performance.now() / 1000;
 
-        // Mostrar/Ocultar botón Top
-        if (scrollTopBtn) {
-            scrollTopBtn.classList.toggle('visible', scrollTop > windowHeight);
-        }
+        if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', scrollTop > windowHeight);
 
-        // --- LÓGICA HERO (Solo si existe el contenedor) ---
+        // Scroll Spy (Barra lateral)
+        let currentSectionId = 'inicio';
         if (heroContainer) {
             const heroHeight = heroContainer.offsetHeight;
-            const scrollableDistance = heroHeight - windowHeight;
-
-            // 1. Scroll Spy (Barra lateral)
-            let currentSectionId = 'inicio';
             if (scrollTop < heroHeight - windowHeight / 2) {
                 currentSectionId = 'inicio';
             } else {
@@ -240,25 +287,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
+        }
+        navDots.forEach(dot => {
+            dot.classList.remove('active');
+            if (dot.getAttribute('data-target') === currentSectionId) dot.classList.add('active');
+        });
 
-            navDots.forEach(dot => {
-                dot.classList.remove('active');
-                if (dot.getAttribute('data-target') === currentSectionId) dot.classList.add('active');
-            });
-
-            // 2. Animaciones internas del Hero
+        // Animaciones dentro del Hero
+        if (heroContainer) {
+            const heroHeight = heroContainer.offsetHeight;
             if (scrollTop < heroHeight + 100) {
-                let p = 0;
-                if (scrollableDistance > 0) {
-                    p = scrollTop / scrollableDistance;
-                    p = Math.max(0, Math.min(1, p));
-                }
+                const scrollable = heroHeight - windowHeight;
+                let p = scrollable > 0 ? Math.max(0, Math.min(1, scrollTop / scrollable)) : 0;
 
-                // Blobs Fondo
                 if (blob1) blob1.style.transform = `translate(${Math.sin(time * 0.5) * 30 + p * 150}px, ${Math.cos(time * 0.3) * 30 + p * 80}px)`;
                 if (blob2) blob2.style.transform = `translate(${Math.sin(time * 0.4 + 2) * 40 - p * 150}px, ${Math.cos(time * 0.6) * 40 - p * 150}px)`;
 
-                // Figuras Geométricas
                 shapes.forEach(shape => {
                     const autoSpeed = parseFloat(shape.dataset.autoRotate || 10);
                     const scrollSpeed = parseFloat(shape.dataset.scrollSpeed || 200);
@@ -268,31 +312,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     shape.style.transform = `translateY(${translateY + floatY}px) rotate(${rotation}deg)`;
                 });
 
-                // Botón Scroll Indicator (Desaparece al final)
                 if (scrollBtn) {
                     let btnOp = p > 0.9 ? 1 - ((p - 0.9) / 0.1) : 1;
                     scrollBtn.style.opacity = Math.max(0, btnOp);
                     scrollBtn.style.pointerEvents = btnOp > 0.1 ? 'auto' : 'none';
                 }
 
-                // Escenas de Texto (Scrollytelling)
-                // Scene 1
+                // Scenes
                 let s1Op = 0;
                 if (p < 0.05) s1Op = p / 0.05;
                 else if (p < 0.15) s1Op = 1;
                 else if (p < 0.25) s1Op = 1 - ((p - 0.15) / 0.1);
                 
-                if (scenes[0]) {
+                if(scenes[0]) {
                     setOpacity(scenes[0], s1Op);
                     scenes[0].style.pointerEvents = s1Op > 0.1 ? "auto" : "none";
                 }
 
-                // Resto de escenas
                 if (scenes[1]) setOpacity(scenes[1], calcSceneOpacity(p, 0.15, 0.28, 0.4));
                 if (scenes[2]) setOpacity(scenes[2], calcSceneOpacity(p, 0.35, 0.48, 0.6));
                 if (scenes[3]) setOpacity(scenes[3], calcSceneOpacity(p, 0.55, 0.68, 0.8));
                 
-                // Scene 5
                 let s5Op = 0;
                 if (p > 0.75) {
                     s5Op = (p - 0.75) / 0.15;
@@ -301,23 +341,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (scenes[4]) setOpacity(scenes[4], s5Op);
             }
         }
-        
         requestAnimationFrame(animate);
     }
-    
-    // Iniciar loop de animación
     animate();
 
     // ==========================================
-    // 4. INTERSECTION OBSERVER (FADE IN GENERAL)
+    // 5. INTERSECTION OBSERVER (FADE IN GENERAL)
     // ==========================================
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
