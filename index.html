@@ -22,10 +22,55 @@
     <link rel="stylesheet" href="css/themes.css">          
     <link rel="stylesheet" href="css/portfolio.css">       
     <link rel="stylesheet" href="css/gallery-advanced.css">
+    <!-- NUEVO: Estilos del Personalizador -->
+    <link rel="stylesheet" href="css/customizer.css">
 </head>
 
 <body class="overflow-x-hidden no-cursor theme-sapphire">
 
+    <!-- PANEL DE PERSONALIZACIÓN FLOTANTE -->
+    <div class="customizer-panel" id="customizer-panel">
+        
+        <!-- Sección Temas -->
+        <div class="customizer-section">
+            <h4 class="customizer-title">Color Theme</h4>
+            <div class="theme-grid">
+                <div class="theme-btn t-original" data-theme="theme-original" title="Neon Acid"></div>
+                <div class="theme-btn t-sapphire active" data-theme="theme-sapphire" title="Cyber Blue"></div>
+                <div class="theme-btn t-crimson" data-theme="theme-crimson" title="Crimson"></div>
+                <div class="theme-btn t-solar" data-theme="theme-solar" title="Solar"></div>
+                <div class="theme-btn t-amethyst" data-theme="theme-amethyst" title="Amethyst"></div>
+                <div class="theme-btn t-royal" data-theme="theme-royal" title="Royal Luxury"></div>
+                <div class="theme-btn t-mint" data-theme="theme-mint" title="Mint"></div>
+                <div class="theme-btn t-cotton" data-theme="theme-cotton" title="Cotton Candy"></div>
+                <div class="theme-btn t-terminal" data-theme="theme-terminal" title="Hacker Terminal"></div>
+                <div class="theme-btn t-slate" data-theme="theme-slate" title="Slate"></div>
+            </div>
+        </div>
+
+        <!-- Sección Galerías -->
+        <div class="customizer-section" style="margin-bottom: 0;">
+            <h4 class="customizer-title">Gallery Mode</h4>
+            <div class="gallery-modes-grid">
+                <button class="mode-btn" data-mode="swiper">3D Slider</button>
+                <button class="mode-btn" data-mode="bento">Bento Grid</button>
+                <button class="mode-btn" data-mode="accordion">Accordion</button>
+                <button class="mode-btn" data-mode="hex">Hexagonal</button>
+                <button class="mode-btn" data-mode="focus">Focus Grid</button>
+                <button class="mode-btn" data-mode="circle">Circles</button>
+                <button class="mode-btn" data-mode="isometric">Isometric</button>
+                <button class="mode-btn active" data-mode="chaos">Chaos</button>
+                <button class="mode-btn" data-mode="film">Film Strip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN TRIGGER (ENGRANAJE) -->
+    <button id="customizer-toggle" class="customizer-btn" aria-label="Personalizar">
+        <i class="ph ph-gear"></i>
+    </button>
+
+    <!-- CURSOR PERSONALIZADO -->
     <div class="custom-cursor" id="cursor"></div>
 
     <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
@@ -152,7 +197,7 @@
         <section id="portafolio" class="section-padding container mx-auto px-4">
             <h2 class="text-4xl md:text-6xl font-bold mb-12 text-center">OBRAS SELECCIONADAS</h2>
             <div class="gallery-clean">
-                <div class="item hover-target"><img src="assets/imagen5.avif" alt="P1"></div>
+                <div class="item hover-target"><img src="assets/imagen1.avif" alt="P1"></div>
                 <div class="item hover-target"><img src="assets/imagen2.avif" alt="P2"></div>
                 <div class="item hover-target"><img src="assets/imagen3.avif" alt="P3"></div>
                 <div class="item hover-target"><img src="assets/imagen4.avif" alt="P4"></div>
