@@ -63,7 +63,8 @@ body {
         border: 2px solid var(--color-text); 
         border-radius: 50%;
         pointer-events: none;
-        z-index: 9999;
+        /* FIX: Aumentamos Z-Index para que se vea sobre el Lightbox (10000) */
+        z-index: 10005; 
         transform: translate(-50%, -50%);
         transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s, box-shadow 0.3s;
         mix-blend-mode: difference;
@@ -505,8 +506,7 @@ body {
 .testimonial-marquee {
     position: relative;
     width: 100%;
-    overflow: hidden; /* Vital para que no haga scroll horizontal */
-    /* Máscara de desvanecimiento en los bordes */
+    overflow: hidden;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     padding: 2rem 0;
@@ -514,28 +514,27 @@ body {
 
 .marquee-track {
     display: flex;
-    gap: 2rem; /* Espacio entre tarjetas */
-    width: max-content; /* Se ajusta al contenido total */
+    gap: 2rem;
+    width: max-content;
     animation: scroll-left 40s linear infinite;
 }
 
 .marquee-track:hover {
-    animation-play-state: paused; /* Se detiene al pasar el mouse */
+    animation-play-state: paused;
 }
 
 @keyframes scroll-left {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Se mueve la mitad del track (el duplicado) */
+    100% { transform: translateX(-50%); } 
 }
 
-/* Tarjeta de Testimonio */
 .testimonial-card {
     width: 350px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 2rem;
-    flex-shrink: 0; /* Evita que se encojan */
+    flex-shrink: 0;
     transition: all 0.3s ease;
     cursor: default;
 }
@@ -595,7 +594,67 @@ body {
     font-size: 0.95rem;
 }
 
-/* --- AJUSTES RESPONSIVE FINALES (Móvil) --- */
+/* --- LIGHTBOX MODAL (VISOR PANTALLA COMPLETA) --- */
+.lightbox-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); /* Fondo casi negro */
+    z-index: 10000; /* Debajo del cursor (10005) pero sobre todo lo demás */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.lightbox-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 10002;
+    background: none;
+    border: none;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.lightbox-close:hover {
+    color: var(--color-primary);
+}
+
+.lightbox-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.lightbox-swiper .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+}
+
+.lightbox-swiper .swiper-slide img {
+    /* FIX: Imagen más grande en el visor */
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    cursor: grab;
+}
+
+/* --- AJUSTES RESPONSIVE FINALES --- */
 @media (max-width: 768px) {
     /* Header Fix */
     nav {
@@ -658,6 +717,6 @@ body {
         padding: 1.5rem;
     }
     .marquee-track {
-        animation-duration: 30s;
+        animation-duration: 30s; 
     }
 }
