@@ -1,0 +1,132 @@
+/* --- BOTÓN FLOTANTE (TRIGGER) --- */
+.customizer-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* Esquina inferior izquierda */
+    width: 50px;
+    height: 50px;
+    background: #000;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    z-index: 10000; /* Por encima de todo */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 0 15px var(--color-primary);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.customizer-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: var(--color-primary);
+    color: #000;
+}
+
+/* --- PANEL DE OPCIONES --- */
+.customizer-panel {
+    position: fixed;
+    bottom: 90px; /* Justo encima del botón */
+    left: 30px;
+    width: 280px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 2px solid var(--color-primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    z-index: 9999;
+    
+    /* Estado inicial: Oculto */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.customizer-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.customizer-section {
+    margin-bottom: 1.5rem;
+}
+
+.customizer-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.3rem;
+}
+
+/* --- GRID DE COLORES (TEMAS) --- */
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.theme-btn:hover { transform: scale(1.2); }
+.theme-btn.active { border-color: #fff; transform: scale(1.1); box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+/* Colores de referencia para los botones */
+.t-original { background: #cdff00; }
+.t-sapphire { background: #64ffda; }
+.t-crimson { background: #ff003c; }
+.t-solar { background: #ff9f1c; }
+.t-amethyst { background: #d400ff; }
+.t-royal { background: #d4af37; }
+.t-mint { background: #00f5d4; }
+.t-cotton { background: #ff85c0; }
+.t-terminal { background: #39ff14; }
+.t-slate { background: #00adb5; }
+
+/* --- BOTONES DE GALERÍA --- */
+.gallery-modes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.mode-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #ccc;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.mode-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.mode-btn.active {
+    background: var(--color-primary);
+    color: #000;
+    border-color: var(--color-primary);
+    font-weight: bold;
+}
